@@ -1,0 +1,14 @@
+mold named baseEnemy {
+    Type = "Orc";
+    Health = 50;
+}
+blueprint Enemy from baseEnemy;
+ 
+Enemy boss = new instance Enemy with (Type: "Dragon", Health: 500);
+ 
+// 'then' is a noise word that marks the end of the condition
+if boss.Health > 100) then {
+    print(boss.Type + " is a boss enemy!");
+} else {
+    print(boss.Type + " is a normal enemy.");
+}

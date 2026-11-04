@@ -1,0 +1,141 @@
+CLAY LEXICAL ANALYZER - SYMBOL TABLE
+Source file: errors.cly
+
++-----+------+------------------------------------------+----------------+
+| No. | Line | Lexeme                                   | Token          |
++=====+======+==========================================+================+
+| 1   | 1    | // Each line below has one kind of le... | COMMENT        |
+| 2   | 2    | int                                      | RESERVED_WORD  |
+| 3   | 2    | 2abc                                     | INVALID        |
+| 4   | 2    | =                                        | ASSIGN_OP      |
+| 5   | 2    | 5                                        | INT_LITERAL    |
+| 6   | 2    | ;                                        | SEMICOLON      |
+| 7   | 3    | int                                      | RESERVED_WORD  |
+| 8   | 3    | 9_lives                                  | INVALID        |
+| 9   | 3    | =                                        | ASSIGN_OP      |
+| 10  | 3    | 3                                        | INT_LITERAL    |
+| 11  | 3    | ;                                        | SEMICOLON      |
+| 12  | 4    | string                                   | RESERVED_WORD  |
+| 13  | 4    | _hidden                                  | INVALID        |
+| 14  | 4    | =                                        | ASSIGN_OP      |
+| 15  | 4    | "secret"                                 | STRING_LITERAL |
+| 16  | 4    | ;                                        | SEMICOLON      |
+| 17  | 5    | int                                      | RESERVED_WORD  |
+| 18  | 5    | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa... | INVALID        |
+| 19  | 5    | =                                        | ASSIGN_OP      |
+| 20  | 5    | 1                                        | INT_LITERAL    |
+| 21  | 5    | ;                                        | SEMICOLON      |
+| 22  | 6    | float                                    | RESERVED_WORD  |
+| 23  | 6    | version                                  | IDENTIFIER     |
+| 24  | 6    | =                                        | ASSIGN_OP      |
+| 25  | 6    | 1.2.3                                    | INVALID        |
+| 26  | 6    | ;                                        | SEMICOLON      |
+| 27  | 7    | float                                    | RESERVED_WORD  |
+| 28  | 7    | speed                                    | IDENTIFIER     |
+| 29  | 7    | =                                        | ASSIGN_OP      |
+| 30  | 7    | 5.x                                      | INVALID        |
+| 31  | 7    | ;                                        | SEMICOLON      |
+| 32  | 8    | int                                      | RESERVED_WORD  |
+| 33  | 8    | big                                      | IDENTIFIER     |
+| 34  | 8    | =                                        | ASSIGN_OP      |
+| 35  | 8    | 3000000000                               | INVALID        |
+| 36  | 8    | ;                                        | SEMICOLON      |
+| 37  | 9    | int                                      | RESERVED_WORD  |
+| 38  | 9    | cost                                     | IDENTIFIER     |
+| 39  | 9    | =                                        | ASSIGN_OP      |
+| 40  | 9    | 100                                      | INT_LITERAL    |
+| 41  | 9    | @                                        | INVALID        |
+| 42  | 9    | 2                                        | INT_LITERAL    |
+| 43  | 9    | ;                                        | SEMICOLON      |
+| 44  | 10   | int                                      | RESERVED_WORD  |
+| 45  | 10   | tag                                      | IDENTIFIER     |
+| 46  | 10   | =                                        | ASSIGN_OP      |
+| 47  | 10   | #                                        | INVALID        |
+| 48  | 10   | 5                                        | INT_LITERAL    |
+| 49  | 10   | ;                                        | SEMICOLON      |
+| 50  | 11   | int                                      | RESERVED_WORD  |
+| 51  | 11   | money                                    | IDENTIFIER     |
+| 52  | 11   | =                                        | ASSIGN_OP      |
+| 53  | 11   | $                                        | INVALID        |
+| 54  | 11   | 50                                       | INT_LITERAL    |
+| 55  | 11   | ;                                        | SEMICOLON      |
+| 56  | 12   | bool                                     | RESERVED_WORD  |
+| 57  | 12   | ok                                       | IDENTIFIER     |
+| 58  | 12   | =                                        | ASSIGN_OP      |
+| 59  | 12   | isReady                                  | IDENTIFIER     |
+| 60  | 12   | ?                                        | INVALID        |
+| 61  | 12   | ;                                        | SEMICOLON      |
+| 62  | 13   | if                                       | KEYWORD        |
+| 63  | 13   | (                                        | LEFT_PAREN     |
+| 64  | 13   | a                                        | IDENTIFIER     |
+| 65  | 13   | &                                        | INVALID        |
+| 66  | 13   | b                                        | IDENTIFIER     |
+| 67  | 13   | )                                        | RIGHT_PAREN    |
+| 68  | 13   | then                                     | NOISE_WORD     |
+| 69  | 13   | {                                        | LEFT_BRACE     |
+| 70  | 13   | print                                    | KEYWORD        |
+| 71  | 13   | (                                        | LEFT_PAREN     |
+| 72  | 13   | "and"                                    | STRING_LITERAL |
+| 73  | 13   | )                                        | RIGHT_PAREN    |
+| 74  | 13   | ;                                        | SEMICOLON      |
+| 75  | 13   | }                                        | RIGHT_BRACE    |
+| 76  | 14   | if                                       | KEYWORD        |
+| 77  | 14   | (                                        | LEFT_PAREN     |
+| 78  | 14   | a                                        | IDENTIFIER     |
+| 79  | 14   | |                                        | INVALID        |
+| 80  | 14   | b                                        | IDENTIFIER     |
+| 81  | 14   | )                                        | RIGHT_PAREN    |
+| 82  | 14   | then                                     | NOISE_WORD     |
+| 83  | 14   | {                                        | LEFT_BRACE     |
+| 84  | 14   | print                                    | KEYWORD        |
+| 85  | 14   | (                                        | LEFT_PAREN     |
+| 86  | 14   | "or"                                     | STRING_LITERAL |
+| 87  | 14   | )                                        | RIGHT_PAREN    |
+| 88  | 14   | ;                                        | SEMICOLON      |
+| 89  | 14   | }                                        | RIGHT_BRACE    |
+| 90  | 15   | char                                     | RESERVED_WORD  |
+| 91  | 15   | grade                                    | IDENTIFIER     |
+| 92  | 15   | =                                        | ASSIGN_OP      |
+| 93  | 15   | 'AB'                                     | INVALID        |
+| 94  | 15   | ;                                        | SEMICOLON      |
+| 95  | 16   | char                                     | RESERVED_WORD  |
+| 96  | 16   | none                                     | IDENTIFIER     |
+| 97  | 16   | =                                        | ASSIGN_OP      |
+| 98  | 16   | ''                                       | INVALID        |
+| 99  | 16   | ;                                        | SEMICOLON      |
+| 100 | 17   | char                                     | RESERVED_WORD  |
+| 101 | 17   | open                                     | IDENTIFIER     |
+| 102 | 17   | =                                        | ASSIGN_OP      |
+| 103 | 17   | 'a                                       | INVALID        |
+| 104 | 18   | string                                   | RESERVED_WORD  |
+| 105 | 18   | bad                                      | IDENTIFIER     |
+| 106 | 18   | =                                        | ASSIGN_OP      |
+| 107 | 18   | "bad \q escape"                          | INVALID        |
+| 108 | 18   | ;                                        | SEMICOLON      |
+| 109 | 19   | string                                   | RESERVED_WORD  |
+| 110 | 19   | msg                                      | IDENTIFIER     |
+| 111 | 19   | =                                        | ASSIGN_OP      |
+| 112 | 19   | "no closing quote                        | INVALID        |
+| 113 | 20   | print                                    | KEYWORD        |
+| 114 | 20   | (                                        | LEFT_PAREN     |
+| 115 | 20   | "this line is fine"                      | STRING_LITERAL |
+| 116 | 20   | )                                        | RIGHT_PAREN    |
+| 117 | 20   | ;                                        | SEMICOLON      |
+| 118 | 21   | /* this comment never closes\nint x =... | INVALID        |
++-----+------+------------------------------------------+----------------+
+
+Total tokens: 118
+  ASSIGN_OP       16
+  COMMENT         1
+  IDENTIFIER      17
+  INT_LITERAL     7
+  INVALID         19
+  KEYWORD         5
+  LEFT_BRACE      2
+  LEFT_PAREN      5
+  NOISE_WORD      2
+  RESERVED_WORD   16
+  RIGHT_BRACE     2
+  RIGHT_PAREN     5
+  SEMICOLON       17
+  STRING_LITERAL  4

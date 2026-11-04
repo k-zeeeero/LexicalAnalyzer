@@ -1,0 +1,55 @@
+// CLAY demo: one example of every token the lexer recognizes
+/* Instance-first programming:
+   shape a mold, extract a blueprint, create instances */
+
+mold named baseEnemy {
+    Type = "Orc";
+    Health = 50;
+    Speed = 1.5;
+    Rank = 'B';
+    isBoss = false;
+
+    void takeDamage(int amount) {
+        Health -= amount;
+    }
+
+    bool isDefeated() {
+        return Health <= 0;
+    }
+}
+
+blueprint Enemy from baseEnemy;
+Enemy boss = new instance Enemy with (Type: "Dragon", Health: 500);
+object anything = null;
+boss.takeDamage(100);
+
+// arithmetic and assignment operators
+int a = 10;
+float b = .5;
+float c = 3.;
+a = a + 2 - 1 * 3 / 1 % 2 ** 2;
+a++;
+a--;
+a += 1; a -= 1; a *= 2; a /= 2; a %= 3;
+
+// relational and logical operators
+if (a < 5 || a > 9 && !(a == 7) && a != 8) then {
+    print("Range: " + a);
+} else if (a <= 1 || a >= 100) then {
+    print("Edge\tcase\n");
+}
+
+// loops, input, brackets for arrays
+string name = scan();
+int scores[3];
+for (int i = 0; i < 3; i++) {
+    scores[i] = i;
+    if (i == 1) { continue; }
+    if (i == 2) { break; }
+}
+while (false) { }
+char tab = '\t';
+
+// invalid lexemes (shown as INVALID, the lexer keeps going)
+2abc _hidden 1.2.3 @ # $ ? & | 'AB' 3000000000
+"no closing quote

@@ -1,0 +1,11 @@
+mold named basePlayer {
+    Name = "Arthur";
+    Score = 100;
+}
+blueprint Player from basePlayer;
+ 
+Player hero = new instance Player with (Name: "Goat", Score: 50);
+ 
+if (hero.Score < basePlayer.Score) {
+    print(hero.Name + " has not reached a perfect score yet.");
+}

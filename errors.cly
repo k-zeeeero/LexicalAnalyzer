@@ -1,0 +1,22 @@
+// Each line below has one kind of lexical error
+int 2abc = 5;
+int 9_lives = 3;
+string _hidden = "secret";
+int aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa = 1;
+float version = 1.2.3;
+float speed = 5.x;
+int big = 3000000000;
+int cost = 100 @ 2;
+int tag = #5;
+int money = $50;
+bool ok = isReady ?;
+if (a & b) then { print("and"); }
+if (a | b) then { print("or"); }
+char grade = 'AB';
+char none = '';
+char open = 'a
+string bad = "bad \q escape";
+string msg = "no closing quote
+print("this line is fine");
+/* this comment never closes
+int x = 1;
