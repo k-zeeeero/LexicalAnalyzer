@@ -5,17 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * The CLAY lexical analyzer.
- *
- * This class is the single DFA from Section 12.b of the CLAY proposal, written as code:
- *   - nextState(state, c)  is the transition table (one "case" per state, same numbers as the paper)
- *   - acceptOf(state)      is the "Accepts" column of the transition table
- *   - finish(state, text)  is the two checks done at accept states (keyword lookup at Q1, range check at Q198)
- *
- * The lexer always takes the longest lexeme that forms a token (longest match). It keeps following
- * transitions until none exists, then emits the token of the last accept state it passed.
- */
+
 public class Lexer {
 
     /** Returned by nextState() when a state has no transition for a character. */
