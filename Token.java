@@ -1,7 +1,3 @@
-/**
- * One row of the symbol table: the token type, the exact text (lexeme),
- * and the line where the lexeme starts.
- */
 public class Token {
     private final TokenType type;
     private final String lexeme;
