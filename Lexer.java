@@ -13,7 +13,7 @@ public class Lexer {
 
     private static final int NL = '\n';
 
-    // ---------------------------------------------------------------- reserved words (Section 4)
+    // reserved words (Section 4)
 
     private static final Set<String> KEYWORDS = new HashSet<String>(Arrays.asList(
             "mold", "blueprint", "from", "new",                                 // instance-first
@@ -29,33 +29,31 @@ public class Lexer {
     private static final int MAX_IDENTIFIER_LENGTH = 64;
     private static final BigInteger MAX_INT = BigInteger.valueOf(2147483647L);
 
-    // ---------------------------------------------------------------- input
+    // input
 
-    /** The source code as Unicode code points, so every character counts as one. */
     private final int[] src;
     private int pos = 0;
     private int line = 1;
 
     public Lexer(String sourceCode) {
-        // Windows (\r\n) and old Mac (\r) line endings are turned into \n so line numbers are right.
+
         String normalized = sourceCode.replace("\r\n", "\n").replace('\r', '\n');
-        // A UTF-8 byte order mark at the start of a file is not part of the program.
+       
         if (normalized.startsWith("\uFEFF﻿")) {
             normalized = normalized.substring(1);
         }
         this.src = normalized.codePoints().toArray();
     }
 
-    // ---------------------------------------------------------------- main loop
+    //main loop
 
-    /** Reads the whole source code and returns every token in order. */
     public List<Token> tokenize() {
         List<Token> tokens = new ArrayList<Token>();
 
         while (pos < src.length) {
             int c = src[pos];
 
-            // Blanks are skipped at Q0 (the blank loop on Q0, Part 7). Newlines only count lines.
+            // blanks are skipped at Q0 and newlines only count lines
             if (c == ' ' || c == '\t') {
                 pos++;
                 continue;
@@ -66,7 +64,7 @@ public class Lexer {
                 continue;
             }
 
-            // Run the DFA from Q0, remembering the last accept state (longest match).
+            // run the DFA from Q0, remembering the last accept state (longest match)
             int state = 0;
             int lastAcceptState = NO_TRANSITION;
             int lastAcceptEnd = pos;
@@ -85,8 +83,6 @@ public class Lexer {
                 }
             }
 
-            // Every first character leads to an accept state, so this never happens.
-            // It is kept as a safety net in case the transition table is changed later.
             if (lastAcceptState == NO_TRANSITION) {
                 lastAcceptState = 233;
                 lastAcceptEnd = pos + 1;
@@ -103,16 +99,12 @@ public class Lexer {
         return tokens;
     }
 
-    // ---------------------------------------------------------------- transition table (Section 12.b)
+    // transition table 
 
-    /**
-     * The transition table: the next state for character c in the given state,
-     * or NO_TRANSITION if the lexeme ends here.
-     */
     private static int nextState(int state, int c) {
         switch (state) {
 
-            // ---------------- Q0: start (overview and start-state table)
+            //  Q0: start (overview and start-state table)
             case 0:
                 if (isLetter(c)) return 1;
                 if (c == '_') return 208;
@@ -144,7 +136,7 @@ public class Lexer {
                     default:   return 233;   // any other character (# ? \ @ $ ` ~ ^ ...)
                 }
 
-            // ---------------- Part 1: words and numbers
+            // Part 1: words and numbers
             case 1:     // word starting with a letter
                 if (isLetter(c) || isDigit(c) || c == '_') return 1;
                 return NO_TRANSITION;
@@ -172,7 +164,7 @@ public class Lexer {
                 if (isLetter(c) || isDigit(c) || c == '_' || c == '.') return 209;
                 return NO_TRANSITION;
 
-            // ---------------- Part 2: string literals
+            // Part 2: string literals
             case 201:   // inside a string
                 if (c == '\\') return 202;
                 if (c == '"') return 203;
@@ -194,7 +186,7 @@ public class Lexer {
                 if (c != NL) return 210;
                 return NO_TRANSITION;
 
-            // ---------------- Part 3: character literals
+            //Part 3: character literals
             case 204:   // after '
                 if (c == '\\') return 206;
                 if (c == '\'') return 213;
@@ -216,7 +208,7 @@ public class Lexer {
                 if (c != NL) return 214;
                 return NO_TRANSITION;
 
-            // ---------------- Part 4: division and comments
+            //  Part 4: division and comments
             case 172:   // /
                 if (c == '/') return 173;
                 if (c == '*') return 175;
@@ -236,7 +228,7 @@ public class Lexer {
                 if (c == '/') return 177;
                 return 175;
 
-            // ---------------- Part 5: arithmetic and compound assignment operators
+            // Part 5: arithmetic and compound assignment operators
             case 2:     // +
                 if (c == '+') return 216;
                 if (c == '=') return 217;
@@ -256,7 +248,7 @@ public class Lexer {
                 if (c == '=') return 223;
                 return NO_TRANSITION;
 
-            // ---------------- Part 6: assignment, relational and logical operators
+            // Part 6: assignment, relational and logical operators
             case 195:   // =
                 if (c == '=') return 224;
                 return NO_TRANSITION;
@@ -281,7 +273,7 @@ public class Lexer {
                 if (c == '|') return 232;
                 return NO_TRANSITION;
 
-            // ---------------- states with no transitions
+            // states with no transitions
             // Q203, Q212, Q207, Q213, Q215, Q177, Q216-Q221, Q223, Q224, Q226, Q228, Q230,
             // Q231, Q232, the delimiters Q178-Q182 and Q184-Q187, and Q233
             default:
@@ -289,9 +281,8 @@ public class Lexer {
         }
     }
 
-    // ---------------------------------------------------------------- accept states
+    // accept states
 
-    /** The "Accepts" column: the token an accept state gives, or null if the state is not accepting. */
     private static TokenType acceptOf(int state) {
         switch (state) {
             // Part 1: words and numbers
@@ -369,9 +360,8 @@ public class Lexer {
         }
     }
 
-    // ---------------------------------------------------------------- checks at accept states
+    // checks at accept states
 
-    /** Gives the final token, with the two checks from Section 12.b ("Checks at two accept states"). */
     private static TokenType finish(int state, String lexeme) {
         if (state == 1) {
             // Keyword lookup, in this order: KEYWORD, RESERVED_WORD, BOOL/NULL_LITERAL, NOISE_WORD, IDENTIFIER
@@ -391,19 +381,19 @@ public class Lexer {
         return acceptOf(state);
     }
 
-    // ---------------------------------------------------------------- character classes (Section 1)
+    // character classes 
 
-    /** ALPHABET: A-Z and a-z only. */
+    // ALPHABET: A-Z and a-z only. 
     private static boolean isLetter(int c) {
         return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
     }
 
-    /** DIGIT: 0-9 only. */
+    // DIGIT: 0-9 only. 
     private static boolean isDigit(int c) {
         return c >= '0' && c <= '9';
     }
 
-    /** The characters allowed after \ in an escape sequence: n t " ' \ (Section 4.c). */
+    // The characters allowed after \ in an escape sequence: n t " ' \ (Section 4.c). 
     private static boolean isEscapeChar(int c) {
         return c == 'n' || c == 't' || c == '"' || c == '\'' || c == '\\';
     }
