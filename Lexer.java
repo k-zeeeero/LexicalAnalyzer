@@ -40,7 +40,7 @@ public class Lexer {
         // Windows (\r\n) and old Mac (\r) line endings are turned into \n so line numbers are right.
         String normalized = sourceCode.replace("\r\n", "\n").replace('\r', '\n');
         // A UTF-8 byte order mark at the start of a file is not part of the program.
-        if (normalized.startsWith("﻿")) {
+        if (normalized.startsWith("\uFEFF﻿")) {
             normalized = normalized.substring(1);
         }
         this.src = normalized.codePoints().toArray();
