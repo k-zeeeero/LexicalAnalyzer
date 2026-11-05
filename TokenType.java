@@ -1,6 +1,3 @@
-/**
- * Every token the CLAY lexer can produce (Section 12.a of the CLAY proposal).
- */
 public enum TokenType {
     // Words (Sections 2, 4 and 5)
     KEYWORD,
