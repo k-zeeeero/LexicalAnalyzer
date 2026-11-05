@@ -33,13 +33,13 @@ public class ClayLexer {
         File file = new File(path);
         String fileName = file.getName();
 
-        // Only .cly files can be read (checked before reading).
+        // .cly file checker
         if (!fileName.toLowerCase().endsWith(".cly")) {
             out.println("Error: '" + path + "' is not a CLAY source file. Only .cly files can be read.");
             System.exit(1);
         }
 
-        // The file must exist.
+        
         if (!file.isFile()) {
             out.println("Error: file '" + path + "' not found.");
             System.exit(1);
@@ -74,15 +74,15 @@ public class ClayLexer {
                 try {
                     writer.close();
                 } catch (IOException ignored) {
-                    // nothing else to do
+                    
                 }
             }
         }
     }
 
-    // ---------------------------------------------------------------- symbol table
+    // symbol table
 
-    /** Builds the symbol table text: title, the table, the total, and a count for each token type. */
+    
     static String buildSymbolTable(List<Token> tokens, String fileName) {
         String[] headers = {"No.", "Line", "Lexeme", "Token"};
         String[][] rows = new String[tokens.size()][];
@@ -96,7 +96,7 @@ public class ClayLexer {
             };
         }
 
-        // Each column is as wide as its longest entry.
+        // each column is as wide as its longest entry.
         int[] widths = new int[headers.length];
         for (int c = 0; c < headers.length; c++) {
             widths[c] = headers[c].length();
@@ -119,7 +119,7 @@ public class ClayLexer {
         sb.append(border(widths, '-')).append(nl);
         sb.append(nl);
 
-        // Total and a count per token type (alphabetical).
+        // total and a count per token type
         sb.append("Total tokens: ").append(tokens.size()).append(nl);
         Map<String, Integer> counts = new TreeMap<String, Integer>();
         int longestName = 0;
@@ -135,10 +135,7 @@ public class ClayLexer {
         return sb.toString();
     }
 
-    /**
-     * How a lexeme is shown in the table: newlines inside a multi-line comment are shown as \n,
-     * tabs as \t, and lexemes longer than 40 characters are cut with "...".
-     */
+    
     static String displayLexeme(String lexeme) {
         String shown = lexeme.replace("\n", "\\n").replace("\t", "\\t");
         int length = shown.codePointCount(0, shown.length());
@@ -176,7 +173,6 @@ public class ClayLexer {
         return sb.toString();
     }
 
-    /** Number of characters as a person counts them (an emoji counts as one). */
     private static int displayWidth(String text) {
         return text.codePointCount(0, text.length());
     }
